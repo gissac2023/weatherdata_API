@@ -3,10 +3,13 @@ import pandas as pd
 
 app = Flask(__name__)
 
+variable = "Hello There"
+stations = pd.read_csv("data_small/stations.txt", skiprows=17)
+stations = stations[["STAID","STANAME                                 "]]
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", data=stations.to_html())
 
 
 @app.route("/api/v1/<station>/<date>")
@@ -22,6 +25,6 @@ def about(station, date):
             "temperate": str(temperature)}
 
 
-# run script only if main.py is called
+# run script o nly if main.py is called
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
